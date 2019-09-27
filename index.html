@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="postComment">
+        <div id="txtBox">
+          <textarea
+            id="msg"
+            type="text"
+            placeholder="Write something..."
+          ></textarea>
+        </div>
+        <div id="submit">
+          <button id="post" type="button">Post</button>
+        </div>
+      </form>
+      <div id="result" class="flex flex-wrap w-100 pa3"></div>
+    </div>
+  </body>
+  <script type="text/javascript" src="logic.js"></script>
+</html>
