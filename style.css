@@ -18,7 +18,7 @@ body {
   color: #436e70;
   font-size: 14px;
   border: 2px solid #8fbc8f;
-  font-family: fantasy;
+  font-family: "Mansalva", cursive;
   background-color: #f5f5dc;
   font-size: 16px;
   padding: 10px;
@@ -37,7 +37,7 @@ body {
   padding-top: 7px;
   border-radius: 15%;
   border: 2px solid #8fbc8f;
-  font-family: fantasy;
+  font-family: "Mansalva", cursive;
 }
 
 #result {
