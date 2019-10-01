@@ -35,7 +35,7 @@ posts.once("value", function(snapshot) {
     const title = document.createTextNode(`Post #${index + 1}`);
 
     let input = body;
-    if (body.substring(0, 4) === "pic:") {
+    if (body.substring(0, 4) === "pic:" || body.substring(0, 4) === "Pic:") {
       input = document.createElement("img");
       input.src = body.substring(4);
     } else {
@@ -74,7 +74,7 @@ const getComment = () => {
       const title = document.createTextNode(`Post #${postCt}`);
 
       let input = msg;
-      if (msg.substring(0, 4) === "pic:") {
+      if (msg.substring(0, 4) === "pic:" || msg.substring(0, 4) === "Pic:") {
         input = document.createElement("img");
         input.src = msg.substring(4);
       } else {
