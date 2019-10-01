@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Post IT</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Mansalva&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="postComment">
+        <div id="txtBox">
+          <textarea
+            id="msg"
+            type="text"
+            placeholder="Write something..."
+          ></textarea>
+        </div>
+        <div id="submit">
+          <button id="post" type="button">Post</button>
+        </div>
+      </form>
+      <div id="result" class="flex flex-wrap w-100 pa3"></div>
+    </div>
+    <script type="text/javascript" src="./test.js"></script>
+  </body>
+</html>

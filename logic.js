@@ -33,10 +33,17 @@ posts.once("value", function(snapshot) {
     comment.id = `comment${index + 1}`;
 
     const title = document.createTextNode(`Post #${index + 1}`);
-    const post = document.createTextNode(body);
+
+    let input = body;
+    if (body.substring(0, 4) === "pic:") {
+      input = document.createElement("img");
+      input.src = body.substring(4);
+    } else {
+      input = document.createTextNode(body);
+    }
 
     heading.appendChild(title);
-    comment.appendChild(post);
+    comment.appendChild(input);
     container.appendChild(comment);
     comment.before(heading);
     result.appendChild(container);
@@ -65,13 +72,22 @@ const getComment = () => {
       comment.id = `comment${postCt}`;
 
       const title = document.createTextNode(`Post #${postCt}`);
-      const post = document.createTextNode(msg);
+
+      let input = msg;
+      if (msg.substring(0, 4) === "pic:") {
+        input = document.createElement("img");
+        input.src = msg.substring(4);
+      } else {
+        input = document.createTextNode(msg);
+      }
+
       heading.appendChild(title);
-      comment.appendChild(post);
+      comment.appendChild(input);
       container.appendChild(comment);
       comment.before(heading);
       result.appendChild(container);
       document.getElementById("msg").value = "";
+
     });
   } else {
     alert("You can't post nothing, bruh.");
