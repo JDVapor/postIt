@@ -34,7 +34,6 @@ body {
   font-size: 20px;
   padding-left: 30px;
   padding-right: 30px;
-  padding-top: 7px;
   border-radius: 15%;
   border: 2px solid #8fbc8f;
   font-family: "Mansalva", cursive;
@@ -56,7 +55,6 @@ body {
 .comment {
   word-wrap: break-word;
   padding: 15px;
-  padding-top: 20px;
   padding-left: 25px;
   padding-right: 20px;
   margin-top: 2px;
