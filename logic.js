@@ -38,6 +38,7 @@ posts.once("value", function(snapshot) {
     if (body.substring(0, 4) === "pic:" || body.substring(0, 4) === "Pic:") {
       input = document.createElement("img");
       input.src = body.substring(4);
+      input.className = "center"
     } else {
       input = document.createTextNode(body);
     }
