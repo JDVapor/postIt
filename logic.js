@@ -15,21 +15,6 @@ const db = firebase.database().ref();
 const posts = db.child("posts");
 const comments = db.child("comments");
 
-comments.once("value", function(snapshot) {
-  const res = snapshot.val();
-  const content = Object.values(res);
-
-  content.map((data, index) => {
-    const body = data.body;
-    const post = document.createElement("p");
-    post.className = "reply";
-    const input = document.createTextNode(body);
-    post.appendChild(input);
-    const box = document.getElementById(`replyBox${data.forPost}`);
-    box.before(post);
-  });
-});
-
 posts.on("value", function(snapshot) {
   const res = snapshot.val();
   const content = Object.values(res);
@@ -118,6 +103,21 @@ posts.on("value", function(snapshot) {
       }
     });
   }
+});
+
+comments.once("value", function(snapshot) {
+  const res = snapshot.val();
+  const content = Object.values(res);
+
+  content.map((data, index) => {
+    const body = data.body;
+    const post = document.createElement("p");
+    post.className = "reply";
+    const input = document.createTextNode(body);
+    post.appendChild(input);
+    const box = document.getElementById(`replyBox${data.forPost}`);
+    box.before(post);
+  });
 });
 
 const getComment = () => {
