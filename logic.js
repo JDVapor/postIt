@@ -15,7 +15,7 @@ const db = firebase.database().ref();
 const posts = db.child("posts");
 const comments = db.child("comments");
 
-posts.on("value", function(snapshot) {
+posts.once("value", function(snapshot) {
   const res = snapshot.val();
   const content = Object.values(res);
 
@@ -130,6 +130,47 @@ const getComment = () => {
       const postCt = content.length + 1;
 
       posts.push({ postNum: postCt, body: msg });
+
+      const result = document.getElementById("result");
+      const container = document.createElement("div");
+      const heading = document.createElement("h2");
+      const comment = document.createElement("p");
+      const feedContain = document.createElement("div");
+      const feedback = document.createElement("input");
+      const feedBtn = document.createElement("button");
+
+      container.className = "postBox w-70 pa3 tl center";
+      container.id = `postBox${postCt}`;
+      heading.className = "heading tl";
+      heading.id = `heading${postCt}`;
+      comment.className = "comment";
+      comment.id = `comment${postCt}`;
+      feedContain.className = "commentBox";
+      feedBtn.innerHTML = "Add Comment";
+      feedBtn.id = `addComment${postCt}`;
+      feedback.id = `replyBox${postCt}`;
+      feedback.className = "txtBox";
+      feedBtn.className = "txtBtn";
+
+      const title = document.createTextNode(`Post #${postCt}`);
+      let input = msg;
+
+      if (msg.substring(0, 4) === "pic:" || msg.substring(0, 4) === "Pic:") {
+        input = document.createElement("img");
+        input.src = msg.substring(4);
+        input.className = "pics";
+      } else {
+        input = document.createTextNode(msg);
+      }
+
+      heading.appendChild(title);
+      comment.appendChild(input);
+      container.appendChild(comment);
+      comment.before(heading);
+      feedContain.appendChild(feedback);
+      feedContain.appendChild(feedBtn);
+      container.appendChild(feedContain);
+      result.appendChild(container);
 
       document.getElementById("msg").value = "";
     });
