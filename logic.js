@@ -13,17 +13,22 @@ firebase.initializeApp(config);
 const db = firebase.database().ref();
 
 const posts = db.child("posts");
+const comments = db.child("comments");
+
 posts.once("value", function(snapshot) {
   const res = snapshot.val();
   const content = Object.values(res);
 
   content.map((data, index) => {
     const body = data.body;
-
     const result = document.getElementById("result");
     const container = document.createElement("div");
     const heading = document.createElement("h2");
     const comment = document.createElement("p");
+    const feedContain = document.createElement("div");
+    const feedback = document.createElement("input");
+    const feedBtn = document.createElement("button");
+    const collapse = document.createElement("button");
 
     container.className = "postBox w-third pa3 tl";
     container.id = `postBox${index + 1}`;
@@ -31,14 +36,22 @@ posts.once("value", function(snapshot) {
     heading.id = `heading${index + 1}`;
     comment.className = "comment";
     comment.id = `comment${index + 1}`;
+    feedContain.className = "commentBox";
+    feedBtn.innerHTML = "Add Comment";
+    feedBtn.id = `addComment${index + 1}`;
+    feedback.id = `replyBox${index + 1}`;
+    feedback.className = "txtBox";
+    feedBtn.className = "txtBtn";
+    collapse.className = "collapsible";
+    collapse.innerHTML = "Click to Add/View Comments";
 
     const title = document.createTextNode(`Post #${index + 1}`);
-
     let input = body;
+
     if (body.substring(0, 4) === "pic:" || body.substring(0, 4) === "Pic:") {
       input = document.createElement("img");
       input.src = body.substring(4);
-      input.className = "center"
+      input.className = "center";
     } else {
       input = document.createTextNode(body);
     }
@@ -47,23 +60,84 @@ posts.once("value", function(snapshot) {
     comment.appendChild(input);
     container.appendChild(comment);
     comment.before(heading);
+    feedContain.appendChild(feedback);
+    feedContain.appendChild(feedBtn);
+    container.appendChild(collapse);
+    container.appendChild(feedContain);
     result.appendChild(container);
+
+    const box = document.getElementById(`addComment${index + 1}`);
+    box.addEventListener(
+      "click",
+      () => {
+        const reply = document.getElementById(`replyBox${index + 1}`).value;
+        if (reply.trim() !== "") {
+          comments.once("value", function(snapshot) {
+            const post = document.createElement("p");
+            post.className = "reply";
+            const input = document.createTextNode(reply);
+            comments.push({ forPost: index + 1, body: reply });
+            post.appendChild(input);
+            feedback.before(post);
+            document.getElementById(`replyBox${index + 1}`).value = "";
+          });
+        } else {
+          alert("You can't post nothing, bruh.");
+        }
+      },
+      false
+    );
+  });
+
+  const coll = document.getElementsByClassName("collapsible");
+  let i;
+
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      const content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
+});
+
+comments.once("value", function(snapshot) {
+  const res = snapshot.val();
+  const content = Object.values(res);
+
+  content.map((data, index) => {
+    const body = data.body;
+    const post = document.createElement("p");
+    post.className = "reply";
+    const input = document.createTextNode(body);
+    post.appendChild(input);
+    const box = document.getElementById(`replyBox${data.forPost}`);
+    box.before(post);
   });
 });
 
 const getComment = () => {
   const msg = document.getElementById("msg").value;
+
   if (msg.trim() !== "") {
     posts.once("value", function(snapshot) {
       const res = snapshot.val();
       const content = Object.values(res);
       const postCt = content.length + 1;
+
       posts.push({ postNum: postCt, body: msg });
 
       const result = document.getElementById("result");
       const container = document.createElement("div");
       const heading = document.createElement("h2");
       const comment = document.createElement("p");
+      const feedContain = document.createElement("div");
+      const feedback = document.createElement("input");
+      const feedBtn = document.createElement("button");
 
       container.className = "postBox w-third pa3 tl";
       container.id = `postBox${postCt}`;
@@ -71,10 +145,16 @@ const getComment = () => {
       heading.id = `heading${postCt}`;
       comment.className = "comment";
       comment.id = `comment${postCt}`;
+      feedContain.className = "commentBox";
+      feedBtn.innerHTML = "Add Comment";
+      feedBtn.id = `addComment${postCt}`;
+      feedback.id = `replyBox${postCt}`;
+      feedback.className = "txtBox";
+      feedBtn.className = "txtBtn";
 
       const title = document.createTextNode(`Post #${postCt}`);
-
       let input = msg;
+
       if (msg.substring(0, 4) === "pic:" || msg.substring(0, 4) === "Pic:") {
         input = document.createElement("img");
         input.src = msg.substring(4);
@@ -86,9 +166,12 @@ const getComment = () => {
       comment.appendChild(input);
       container.appendChild(comment);
       comment.before(heading);
+      feedContain.appendChild(feedback);
+      feedContain.appendChild(feedBtn);
+      container.appendChild(feedContain);
       result.appendChild(container);
-      document.getElementById("msg").value = "";
 
+      document.getElementById("msg").value = "";
     });
   } else {
     alert("You can't post nothing, bruh.");
