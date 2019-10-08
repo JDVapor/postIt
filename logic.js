@@ -30,7 +30,7 @@ posts.once("value", function(snapshot) {
     const feedBtn = document.createElement("button");
     const collapse = document.createElement("button");
 
-    container.className = "postBox w-third pa3 tl";
+    container.className = "postBox w-70 pa3 tl center";
     container.id = `postBox${index + 1}`;
     heading.className = "heading tl";
     heading.id = `heading${index + 1}`;
@@ -139,7 +139,7 @@ const getComment = () => {
       const feedback = document.createElement("input");
       const feedBtn = document.createElement("button");
 
-      container.className = "postBox w-third pa3 tl";
+      container.className = "postBox w-70 pa3 tl center";
       container.id = `postBox${postCt}`;
       heading.className = "heading tl";
       heading.id = `heading${postCt}`;
