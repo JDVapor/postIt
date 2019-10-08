@@ -15,6 +15,21 @@ const db = firebase.database().ref();
 const posts = db.child("posts");
 const comments = db.child("comments");
 
+comments.once("value", function(snapshot) {
+  const res = snapshot.val();
+  const content = Object.values(res);
+
+  content.map((data, index) => {
+    const body = data.body;
+    const post = document.createElement("p");
+    post.className = "reply";
+    const input = document.createTextNode(body);
+    post.appendChild(input);
+    const box = document.getElementById(`replyBox${data.forPost}`);
+    box.before(post);
+  });
+});
+
 posts.on("value", function(snapshot) {
   const res = snapshot.val();
   const content = Object.values(res);
@@ -73,9 +88,12 @@ posts.on("value", function(snapshot) {
         const reply = document.getElementById(`replyBox${index + 1}`).value;
         if (reply.trim() !== "") {
           comments.once("value", function(snapshot) {
-
+            const post = document.createElement("p");
+            post.className = "reply";
+            const input = document.createTextNode(reply);
             comments.push({ forPost: index + 1, body: reply });
-
+            post.appendChild(input);
+            feedback.before(post);
             document.getElementById(`replyBox${index + 1}`).value = "";
           });
         } else {
@@ -102,30 +120,15 @@ posts.on("value", function(snapshot) {
   }
 });
 
-comments.on("value", function(snapshot) {
-  const res = snapshot.val();
-  const content = Object.values(res);
-
-  content.map((data, index) => {
-    const body = data.body;
-    const post = document.createElement("p");
-    post.className = "reply";
-    const input = document.createTextNode(body);
-    post.appendChild(input);
-    const box = document.getElementById(`replyBox${data.forPost}`);
-    box.before(post);
-  });
-});
-
 const getComment = () => {
   const msg = document.getElementById("msg").value;
 
   if (msg.trim() !== "") {
     posts.once("value", function(snapshot) {
-
       const res = snapshot.val();
       const content = Object.values(res);
       const postCt = content.length + 1;
+
       posts.push({ postNum: postCt, body: msg });
 
       document.getElementById("msg").value = "";
