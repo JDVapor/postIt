@@ -73,6 +73,7 @@ posts.once("value", function(snapshot) {
         const reply = document.getElementById(`replyBox${index + 1}`).value;
         if (reply.trim() !== "") {
           comments.once("value", function(snapshot) {
+
             const post = document.createElement("p");
             post.className = "reply";
             const input = document.createTextNode(reply);
@@ -129,7 +130,7 @@ const getComment = () => {
       const content = Object.values(res);
       const postCt = content.length + 1;
 
-      posts.push({ postNum: postCt, body: msg });
+      posts.push({ postNum: postCt, body: msg, commentCT: 0 });
 
       const result = document.getElementById("result");
       const container = document.createElement("div");
