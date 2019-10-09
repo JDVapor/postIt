@@ -16,6 +16,7 @@ const posts = db.child("posts");
 const comments = db.child("comments");
 
 posts.on("child_added", function(snapshot) {
+
   const data = snapshot.val();
   const body = data.body;
   const result = document.getElementById("result");
@@ -41,7 +42,7 @@ posts.on("child_added", function(snapshot) {
   feedBtn.className = "txtBtn";
   collapse.className = "collapsible";
   collapse.id = `collapsible${data.postNum}`
-  collapse.innerHTML = "Click to Add/View Comments";
+  collapse.innerHTML = `Click to Add/View Comments (${data.commentCT})`;
 
   const title = document.createTextNode(`Post #${data.postNum}`);
   let input;
@@ -83,6 +84,9 @@ posts.on("child_added", function(snapshot) {
       if (reply.trim() !== "") {
         comments.push({ forPost: data.postNum, body: reply });
         document.getElementById(`replyBox${data.postNum}`).value = "";
+        const cmtCT = data.commentCT;
+        snapshot.ref.update({commentCT: cmtCT + 1});
+        collapse.innerHTML = `Click to Add/View Comments (${cmtCT + 1})`;
       } else {
         alert("You can't post nothing, bruh.");
       }
