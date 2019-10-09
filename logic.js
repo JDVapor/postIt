@@ -18,6 +18,7 @@ const comments = db.child("comments");
 posts.on("child_added", function(snapshot) {
 
   const data = snapshot.val();
+  let cmtCT = data.commentCT;
   const body = data.body;
   const result = document.getElementById("result");
   const container = document.createElement("div");
@@ -84,14 +85,13 @@ posts.on("child_added", function(snapshot) {
       if (reply.trim() !== "") {
         comments.push({ forPost: data.postNum, body: reply });
         document.getElementById(`replyBox${data.postNum}`).value = "";
-        const cmtCT = data.commentCT;
-        snapshot.ref.update({commentCT: cmtCT + 1});
-        collapse.innerHTML = `Click to Add/View Comments (${cmtCT + 1})`;
+        cmtCT++;
+        snapshot.ref.update({commentCT: cmtCT});
+        collapse.innerHTML = `Click to Add/View Comments (${cmtCT})`;
       } else {
         alert("You can't post nothing, bruh.");
       }
-    },
-    false
+    }
   );
 });
 
