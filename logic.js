@@ -28,7 +28,7 @@ posts.on("child_added", function(snapshot) {
   const feedBtn = document.createElement("button");
   const collapse = document.createElement("button");
 
-  container.className = "postBox w-70 pa3 tl center";
+  container.className = "postBox w-60 pa3 tl center";
   container.id = `postBox${data.postNum}`;
   heading.className = "heading tl";
   heading.id = `heading${data.postNum}`;

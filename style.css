@@ -68,7 +68,7 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  width: 90%;
   padding-top: 25px;
   padding-bottom: 25px;
 }
@@ -87,7 +87,7 @@ body {
 }
 
 .txtBox {
-  max-width: 120px;
+  max-width: 150px;
   margin-right: 10px;
   margin-left: 25px;
   margin-bottom: 5px;
