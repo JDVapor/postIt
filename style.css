@@ -116,7 +116,7 @@ body {
 .collapsible {
   margin-bottom: 10px;
   margin-top: 5px;
-  margin-left: 4%;
+  margin-left: 3%;
   margin-right: 5%;
   background-color: #bfbfbf;
   color: tomato;
@@ -150,12 +150,12 @@ body {
 .like {
   margin-bottom: 10px;
   margin-top: 5px;
-  margin-left: 7%;
+  margin-left: 6%;
   background-color: #bfbfbf;
   color: tomato;
   cursor: pointer;
   padding: 5px;
-  width: 11%;
+  width: 13%;
   border: none;
   text-align: left;
   outline: none;
@@ -173,7 +173,7 @@ body {
   color: tomato;
   cursor: pointer;
   padding: 5px;
-  width: 11%;
+  width: 13%;
   border: none;
   text-align: left;
   outline: none;
