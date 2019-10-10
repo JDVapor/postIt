@@ -37,6 +37,20 @@ body {
   border-radius: 15%;
   border: 2px solid #8fbc8f;
   font-family: "Mansalva", cursive;
+  max-width: 100px;
+}
+
+#or {
+  color: #20b2aa;
+  font-size: 20px;
+  max-width: 100px;
+  padding: 5px;
+}
+
+#imgUpload {
+  color: transparent;
+  margin-left: 10px;
+  max-width: 100px;
 }
 
 #result {

@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Post IT</title>
-    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-storage.js"></script>
     <link rel="stylesheet" href="./style.css" />
     <link
       rel="stylesheet"
@@ -25,8 +26,12 @@
             placeholder="Write something..."
           ></textarea>
         </div>
-        <div id="submit">
-          <button id="post" type="button">Post</button>
+        <div id="submit" class="center flex flex-column">
+          <button id="post" type="button" class="center">Post</button>
+          <span id="or" class="center">OR</span>
+          <div class="center">
+            <input id="imgUpload" type="file" />
+          </div>
         </div>
       </form>
       <div id="result" class="flex flex-column-reverse w-100 pa3"></div>

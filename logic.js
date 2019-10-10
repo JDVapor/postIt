@@ -3,7 +3,7 @@ const config = {
   authDomain: "post-it-6cc95.firebaseapp.com",
   databaseURL: "https://post-it-6cc95.firebaseio.com",
   projectId: "post-it-6cc95",
-  storageBucket: "",
+  storageBucket: "post-it-6cc95.appspot.com",
   messagingSenderId: "211257113895",
   appId: "1:211257113895:web:314a52754c1f877dfcbd02"
 };
@@ -11,12 +11,44 @@ const config = {
 firebase.initializeApp(config);
 
 const db = firebase.database().ref();
+const storage = firebase.storage().ref();
 
 const posts = db.child("posts");
 const comments = db.child("comments");
+const imgs = storage.child("images");
+
+window.addEventListener("load", function() {
+  document
+    .querySelector('input[type="file"]')
+    .addEventListener("change", function() {
+      if (this.files && this.files[0]) {
+        const imgName = this.files[0].name;
+        const checkType = isImage(imgName);
+        if (checkType) {
+          storage
+            .child(`images/${imgName}`)
+            .put(this.files[0])
+            .then(function(snapshot) {
+              console.log("Uploaded image");
+              storage
+                .child(`images/${imgName}`)
+                .getDownloadURL()
+                .then(function(url) {
+                  console.log(url);
+                  const post = document.getElementById("msg");
+                  const src = url;
+                  msg.innerHTML = `pic: ${src}`;
+                  createPost();
+                });
+            });
+        } else {
+          alert("Needs to be an image!");
+        }
+      }
+    });
+});
 
 posts.on("child_added", function(snapshot) {
-
   const data = snapshot.val();
   let cmtCT = data.commentCT;
   const body = data.body;
@@ -42,7 +74,7 @@ posts.on("child_added", function(snapshot) {
   feedback.className = "txtBox";
   feedBtn.className = "txtBtn";
   collapse.className = "collapsible";
-  collapse.id = `collapsible${data.postNum}`
+  collapse.id = `collapsible${data.postNum}`;
   collapse.innerHTML = `Click to Add/View Comments (${data.commentCT})`;
 
   const title = document.createTextNode(`Post #${data.postNum}`);
@@ -78,21 +110,18 @@ posts.on("child_added", function(snapshot) {
   });
 
   const box = document.getElementById(`addComment${data.postNum}`);
-  box.addEventListener(
-    "click",
-    () => {
-      const reply = document.getElementById(`replyBox${data.postNum}`).value;
-      if (reply.trim() !== "") {
-        comments.push({ forPost: data.postNum, body: reply });
-        document.getElementById(`replyBox${data.postNum}`).value = "";
-        cmtCT++;
-        snapshot.ref.update({commentCT: cmtCT});
-        collapse.innerHTML = `Click to Add/View Comments (${cmtCT})`;
-      } else {
-        alert("You can't post nothing, bruh.");
-      }
+  box.addEventListener("click", () => {
+    const reply = document.getElementById(`replyBox${data.postNum}`).value;
+    if (reply.trim() !== "") {
+      comments.push({ forPost: data.postNum, body: reply });
+      document.getElementById(`replyBox${data.postNum}`).value = "";
+      cmtCT++;
+      snapshot.ref.update({ commentCT: cmtCT });
+      collapse.innerHTML = `Click to Add/View Comments (${cmtCT})`;
+    } else {
+      alert("You can't post nothing, bruh.");
     }
-  );
+  });
 });
 
 comments.on("child_added", function(snapshot) {
@@ -121,6 +150,23 @@ const createPost = () => {
   } else {
     alert("You can't post nothing, bruh.");
   }
+};
+
+const getExtension = filename => {
+  const parts = filename.split(".");
+  return parts[parts.length - 1];
+};
+const isImage = filename => {
+  const ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case "jpg":
+    case "gif":
+    case "bmp":
+    case "png":
+    case "jpeg":
+      return true;
+  }
+  return false;
 };
 
 const post = document.getElementById("post");
